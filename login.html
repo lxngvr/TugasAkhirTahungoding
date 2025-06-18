@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UMKM Go - Masuk atau Daftar</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config={theme:{extend:{colors:{primary:'#1976D2',secondary:'#64B5F6'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafb;
+        }
+        .auth-container {
+            min-height: calc(100vh - 160px);
+        }
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: #1976D2;
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
+        .password-toggle:focus {
+            outline: none;
+        }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #6b7280;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .divider::before {
+            margin-right: 1rem;
+        }
+        .divider::after {
+            margin-left: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="login-page" class="min-h-screen flex flex-col bg-white">
+        <header class="py-6 border-b border-gray-100 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="flex justify-center">
+                    <a href="index.html">
+                        <img src="image/logo-remove.png" alt="Logo UMKM Go" class="h-20">
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 auth-container">
+            <div class="container mx-auto px-6 py-12">
+                <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-sm border border-gray-100">
+                    <div class="text-center mb-8">
+                        <h1 class="text-2xl font-semibold text-primary mb-2">Masuk Akun</h1>
+                        <p class="text-gray-500 text-sm">Senang melihat Anda kembali! Silakan masuk.</p>
+                    </div>
+
+                    <form id="login-form" class="space-y-5">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none w-10 h-10">
+                                    <i class="ri-mail-line text-gray-400"></i>
+                                </div>
+                                <input type="email" id="email" name="email" class="form-input w-full pl-10 pr-3 py-2 border border-gray-300 rounded-button text-gray-700 focus:outline-none" placeholder="Masukkan email Anda" required>
+                            </div>
+                            <div id="email-error" class="text-red-500 text-xs mt-1 hidden">Harap masukkan alamat email yang valid</div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                                <a href="#" class="text-xs text-primary hover:text-primary/80">Lupa Kata Sandi?</a>
+                            </div>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none w-10 h-10">
+                                    <i class="ri-lock-line text-gray-400"></i>
+                                </div>
+                                <input type="password" id="password" name="password" class="form-input w-full pl-10 pr-10 py-2 border border-gray-300 rounded-button text-gray-700 focus:outline-none" placeholder="Masukkan kata sandi" required>
+                                <button type="button" class="password-toggle absolute inset-y-0 right-0 flex items-center pr-3 w-10 h-10">
+                                    <i class="ri-eye-off-line text-gray-400"></i>
+                                </button>
+                            </div>
+                            <div id="password-error" class="text-red-500 text-xs mt-1 hidden">Kata sandi minimal harus 6 karakter</div>
+                        </div>
+
+                        <button type="submit" id="login-button" class="w-full bg-primary hover:bg-primary/90 text-white py-2.5 rounded-button transition-colors duration-200 font-medium !rounded-button whitespace-nowrap flex justify-center items-center">
+                            <span>Masuk</span>
+                        </button>
+                    </form>
+
+                    <div class="divider my-6 text-sm text-gray-500">ATAU</div>
+
+                    <div class="text-center">
+                        <p class="text-gray-600 text-sm">
+                            Belum punya akun? 
+                            <a href="#" id="show-register" class="text-primary hover:text-primary/80 font-medium">Daftar sekarang</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="py-6 border-t border-gray-100 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center text-gray-500 text-sm">
+                    © 2025 UMKM Go Sumedang. Hak cipta dilindungi.
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div id="register-page" class="min-h-screen flex flex-col bg-white hidden">
+        <header class="py-6 border-b border-gray-100 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="flex justify-center">
+                    <a href="index.html">
+                         <img src="image/logo-remove.png" alt="Logo UMKM Go" class="h-20">
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 auth-container">
+            <div class="container mx-auto px-6 py-12">
+                <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-sm border border-gray-100">
+                    <div class="text-center mb-8">
+                        <h1 class="text-2xl font-semibold text-primary mb-2">Buat Akun Baru</h1>
+                        <p class="text-gray-500 text-sm">Satu langkah lagi untuk terhubung dengan UMKM lokal.</p>
+                    </div>
+
+                    <form id="register-form" class="space-y-5">
+                        <div>
+                            <label for="fullname" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none w-10 h-10">
+                                    <i class="ri-user-line text-gray-400"></i>
+                                </div>
+                                <input type="text" id="fullname" name="fullname" class="form-input w-full pl-10 pr-3 py-2 border border-gray-300 rounded-button text-gray-700 focus:outline-none" placeholder="Masukkan nama lengkap Anda" required>
+                            </div>
+                            <div id="fullname-error" class="text-red-500 text-xs mt-1 hidden">Nama lengkap tidak boleh kosong</div>
+                        </div>
+
+                        <div>
+                            <label for="register-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none w-10 h-10">
+                                    <i class="ri-mail-line text-gray-400"></i>
+                                </div>
+                                <input type="email" id="register-email" name="email" class="form-input w-full pl-10 pr-3 py-2 border border-gray-300 rounded-button text-gray-700 focus:outline-none" placeholder="Masukkan email Anda" required>
+                            </div>
+                            <div id="register-email-error" class="text-red-500 text-xs mt-1 hidden">Harap masukkan alamat email yang valid</div>
+                        </div>
+
+                        <div>
+                            <label for="register-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none w-10 h-10">
+                                    <i class="ri-lock-line text-gray-400"></i>
+                                </div>
+                                <input type="password" id="register-password" name="password" class="form-input w-full pl-10 pr-10 py-2 border border-gray-300 rounded-button text-gray-700 focus:outline-none" placeholder="Buat kata sandi Anda" required>
+                                <button type="button" class="password-toggle absolute inset-y-0 right-0 flex items-center pr-3 w-10 h-10">
+                                    <i class="ri-eye-off-line text-gray-400"></i>
+                                </button>
+                            </div>
+                            <div id="register-password-error" class="text-red-500 text-xs mt-1 hidden">Kata sandi minimal harus 6 karakter</div>
+                        </div>
+
+                        <div>
+                            <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none w-10 h-10">
+                                    <i class="ri-lock-line text-gray-400"></i>
+                                </div>
+                                <input type="password" id="confirm-password" name="confirm-password" class="form-input w-full pl-10 pr-10 py-2 border border-gray-300 rounded-button text-gray-700 focus:outline-none" placeholder="Ketik ulang kata sandi Anda" required>
+                                <button type="button" class="password-toggle absolute inset-y-0 right-0 flex items-center pr-3 w-10 h-10">
+                                    <i class="ri-eye-off-line text-gray-400"></i>
+                                </button>
+                            </div>
+                            <div id="confirm-password-error" class="text-red-500 text-xs mt-1 hidden">Kata sandi tidak cocok</div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="terms" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-white focus:ring-3 focus:ring-primary/20 checked:bg-primary checked:border-primary" required>
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="terms" class="text-gray-600">Saya menyetujui <a href="#" class="text-primary hover:text-primary/80">Syarat & Ketentuan</a></label>
+                            </div>
+                        </div>
+                        <div id="terms-error" class="text-red-500 text-xs mt-1 hidden">Anda harus menyetujui Syarat & Ketentuan</div>
+                        <button type="submit" id="register-button" class="w-full bg-primary hover:bg-primary/90 text-white py-2.5 rounded-button transition-colors duration-200 font-medium !rounded-button whitespace-nowrap flex justify-center items-center">
+                            <span>Daftar</span>
+                        </button>
+                    </form>
+
+                    <div class="text-center mt-6">
+                        <p class="text-gray-600 text-sm">
+                            Sudah punya akun? 
+                            <a href="#" id="show-login" class="text-primary hover:text-primary/80 font-medium">Masuk di sini</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="py-6 border-t border-gray-100 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center text-gray-500 text-sm">
+                    © 2025 UMKM Go Sumedang. Hak cipta dilindungi.
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- MAIN SCRIPT TO HANDLE ALL LOGIC ---
+
+            // --- Page Toggling ---
+            const showRegisterBtn = document.getElementById('show-register');
+            const showLoginBtn = document.getElementById('show-login');
+            const loginPage = document.getElementById('login-page');
+            const registerPage = document.getElementById('register-page');
+
+            if (showRegisterBtn) {
+                showRegisterBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loginPage.classList.add('hidden');
+                    registerPage.classList.remove('hidden');
+                });
+            }
+            
+            if(showLoginBtn) {
+                showLoginBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    registerPage.classList.add('hidden');
+                    loginPage.classList.remove('hidden');
+                });
+            }
+
+            // --- Password Visibility Toggle ---
+            const passwordToggles = document.querySelectorAll('.password-toggle');
+            passwordToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const passwordField = this.previousElementSibling;
+                    const icon = this.querySelector('i');
+                    if (passwordField.type === 'password') {
+                        passwordField.type = 'text';
+                        icon.classList.remove('ri-eye-off-line');
+                        icon.classList.add('ri-eye-line');
+                    } else {
+                        passwordField.type = 'password';
+                        icon.classList.remove('ri-eye-line');
+                        icon.classList.add('ri-eye-off-line');
+                    }
+                });
+            });
+
+            // --- Form Validation Logic ---
+            const validateField = (field, errorEl, validationFn) => {
+                if (!validationFn(field.value)) {
+                    errorEl.classList.remove('hidden');
+                    field.classList.add('border-red-500');
+                    return false;
+                } else {
+                    errorEl.classList.add('hidden');
+                    field.classList.remove('border-red-500');
+                    return true;
+                }
+            };
+
+            // --- Login Form Logic ---
+            const loginForm = document.getElementById('login-form');
+            if(loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    let isLoginValid = true;
+
+                    // Fields
+                    const email = document.getElementById('email');
+                    const emailError = document.getElementById('email-error');
+                    const password = document.getElementById('password');
+                    const passwordError = document.getElementById('password-error');
+                    
+                    // Validations
+                    isLoginValid &= validateField(email, emailError, val => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val));
+                    isLoginValid &= validateField(password, passwordError, val => val.length >= 6);
+
+                    if (isLoginValid) {
+                        const loginButton = document.getElementById('login-button');
+                        loginButton.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Sedang memproses...';
+                        loginButton.disabled = true;
+                        
+                        setTimeout(() => {
+                           window.location.href = 'index.html'; // Redirect to homepage
+                        }, 1500);
+                    }
+                });
+            }
+
+            // --- Register Form Logic ---
+            const registerForm = document.getElementById('register-form');
+            if(registerForm) {
+                registerForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    let isRegisterValid = true;
+
+                    // Fields
+                    const fullname = document.getElementById('fullname');
+                    const fullnameError = document.getElementById('fullname-error');
+                    const email = document.getElementById('register-email');
+                    const emailError = document.getElementById('register-email-error');
+                    const password = document.getElementById('register-password');
+                    const passwordError = document.getElementById('register-password-error');
+                    const confirmPassword = document.getElementById('confirm-password');
+                    const confirmPasswordError = document.getElementById('confirm-password-error');
+                    const terms = document.getElementById('terms');
+                    const termsError = document.getElementById('terms-error');
+
+                    // Validations
+                    isRegisterValid &= validateField(fullname, fullnameError, val => val.trim() !== '');
+                    isRegisterValid &= validateField(email, emailError, val => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val));
+                    isRegisterValid &= validateField(password, passwordError, val => val.length >= 6);
+                    isRegisterValid &= validateField(confirmPassword, confirmPasswordError, val => val === password.value);
+                    isRegisterValid &= validateField(terms, termsError, val => terms.checked);
+                    
+                    if (isRegisterValid) {
+                        const registerButton = document.getElementById('register-button');
+                        registerButton.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Mendaftarkan...';
+                        registerButton.disabled = true;
+                        
+                        setTimeout(() => {
+                            alert('Pendaftaran berhasil! Silakan masuk.');
+                            registerButton.innerHTML = 'Daftar';
+                            registerButton.disabled = false;
+                            
+                            // Switch to login page
+                            registerPage.classList.add('hidden');
+                            loginPage.classList.remove('hidden');
+                        }, 1500);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

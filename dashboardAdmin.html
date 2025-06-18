@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UMKM Go - Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pacifico&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        secondary: '#64748B'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                },
+                fontFamily: {
+                    'sans': ['Inter', 'sans-serif'],
+                }
+            }
+        }
+    </script>
+    <style>
+        :where([class^="ri-"])::before {
+            content: "\f3c2";
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F1F5F9;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            background-color: #1E293B;
+            color: white;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .content-area {
+            margin-left: 250px;
+            margin-right: 300px;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        .right-panel {
+            width: 300px;
+            height: 100vh;
+            position: fixed;
+            right: 0;
+            top: 0;
+            background-color: white;
+            transition: all 0.3s ease;
+            z-index: 5;
+        }
+
+        .nav-item {
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active {
+            background-color: rgba(37, 99, 235, 0.2);
+            border-left: 4px solid #2563EB;
+        }
+
+        input[type="search"]::-webkit-search-decoration,
+        input[type="search"]::-webkit-search-cancel-button,
+        input[type="search"]::-webkit-search-results-button,
+        input[type="search"]::-webkit-search-results-decoration {
+            display: none;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .custom-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .custom-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.switch-slider {
+            background-color: #2563EB;
+        }
+
+        input:checked+.switch-slider:before {
+            transform: translateX(20px);
+        }
+
+        @media (max-width: 1200px) {
+            .right-panel {
+                width: 250px;
+            }
+
+            .content-area {
+                margin-right: 250px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .right-panel {
+                display: none;
+            }
+
+            .content-area {
+                margin-right: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .sidebar .nav-text {
+                display: none;
+            }
+
+            .content-area {
+                margin-left: 70px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar {
+                width: 0;
+            }
+
+            .content-area {
+                margin-left: 0;
+            }
+        }
+
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #cbd5e1;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            background-color: white;
+        }
+
+        .custom-checkbox:checked {
+            background-color: #2563EB;
+            border-color: #2563EB;
+        }
+
+        .custom-checkbox:checked::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .custom-radio {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #cbd5e1;
+            border-radius: 50%;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            background-color: white;
+        }
+
+        .custom-radio:checked {
+            border-color: #2563EB;
+        }
+
+        .custom-radio:checked::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #2563EB;
+        }
+    </style>
+</head>
+
+<body class="font-sans text-gray-800">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar flex flex-col">
+        <div class="p-4 border-b border-gray-700">
+            <h1 class="font-['Pacifico'] text-2xl text-white">UMKM Go</h1>
+        </div>
+        <nav class="flex-1 py-4">
+            <div class="px-4 py-2 text-xs uppercase text-gray-400 font-semibold">Menu Utama</div>
+            <a href="#" class="nav-item active flex items-center px-4 py-3">
+                <div class="w-8 h-8 flex items-center justify-center mr-3">
+                    <i class="ri-dashboard-line ri-lg"></i>
+                </div>
+                <span class="nav-text">Dashboard</span>
+            </a>
+            <a href="https://readdy.ai/home/9f409767-a0ca-4ff5-ac38-907f736128ae/6b2c7a0b-b6f4-42ed-8455-f8b51fafba8b"
+                data-readdy="true" class="nav-item flex items-center px-4 py-3">
+                <div class="w-8 h-8 flex items-center justify-center mr-3">
+                    <i class="ri-shopping-bag-line ri-lg"></i>
+                </div>
+                <span class="nav-text">Manajemen Produk</span>
+            </a>
+            <a href="#" class="nav-item flex items-center px-4 py-3">
+                <div class="w-8 h-8 flex items-center justify-center mr-3">
+                    <i class="ri-user-line ri-lg"></i>
+                </div>
+                <span class="nav-text">Manajemen Pengguna</span>
+            </a>
+            <div class="px-4 py-2 mt-6 text-xs uppercase text-gray-400 font-semibold">Pengaturan</div>
+            <a href="#" class="nav-item flex items-center px-4 py-3">
+                <div class="w-8 h-8 flex items-center justify-center mr-3">
+                    <i class="ri-settings-line ri-lg"></i>
+                </div>
+                <span class="nav-text">Pengaturan</span>
+            </a>
+        </nav>
+        <div class="p-4 border-t border-gray-700">
+            <a href="#" class="nav-item flex items-center px-4 py-3 text-red-400 hover:text-red-300">
+                <div class="w-8 h-8 flex items-center justify-center mr-3">
+                    <i class="ri-logout-box-line ri-lg"></i>
+                </div>
+                <span class="nav-text">Keluar</span>
+            </a>
+        </div>
+    </aside>
+    <!-- Main Content Area -->
+    <main class="content-area">
+        <!-- Header -->
+        <header class="bg-white shadow-sm">
+            <div class="flex items-center justify-between px-6 py-4">
+                <div class="flex items-center">
+                    <div class="text-sm breadcrumbs">
+                        <span class="text-gray-500">Admin</span>
+                        <span class="mx-2 text-gray-400">/</span>
+                        <span class="font-medium">Dashboard</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <input type="search" placeholder="Cari..."
+                            class="w-64 px-4 py-2 pl-10 border-none rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/30 text-sm">
+                        <div class="absolute left-3 top-2.5 text-gray-400 w-4 h-4 flex items-center justify-center">
+                            <i class="ri-search-line"></i>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center relative">
+                            <i class="ri-notification-line"></i>
+                            <span
+                                class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full text-white text-xs flex items-center justify-center">3</span>
+                        </button>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-2">
+                            <i class="ri-user-line text-gray-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium">Budi Santoso</p>
+                            <p class="text-xs text-gray-500">Administrator</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Dashboard Content -->
+        <div class="p-6">
+            <h1 class="text-2xl font-semibold mb-6">Dashboard Overview</h1>
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded shadow p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm text-gray-500 mb-1">Total Produk</p>
+                            <h3 class="text-2xl font-semibold">1,254</h3>
+                            <p class="text-xs text-green-500 mt-2 flex items-center">
+                                <i class="ri-arrow-up-line mr-1"></i> 12% dari bulan lalu
+                            </p>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-primary">
+                            <i class="ri-shopping-bag-line ri-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded shadow p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm text-gray-500 mb-1">Pengguna Aktif</p>
+                            <h3 class="text-2xl font-semibold">8,549</h3>
+                            <p class="text-xs text-green-500 mt-2 flex items-center">
+                                <i class="ri-arrow-up-line mr-1"></i> 8% dari bulan lalu
+                            </p>
+                        </div>
+                        <div
+                            class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                            <i class="ri-user-line ri-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded shadow p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm text-gray-500 mb-1">Pendapatan</p>
+                            <h3 class="text-2xl font-semibold">Rp 45,6 Jt</h3>
+                            <p class="text-xs text-red-500 mt-2 flex items-center">
+                                <i class="ri-arrow-down-line mr-1"></i> 3% dari bulan lalu
+                            </p>
+                        </div>
+                        <div
+                            class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+                            <i class="ri-money-dollar-circle-line ri-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded shadow p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm text-gray-500 mb-1">Transaksi</p>
+                            <h3 class="text-2xl font-semibold">3,672</h3>
+                            <p class="text-xs text-green-500 mt-2 flex items-center">
+                                <i class="ri-arrow-up-line mr-1"></i> 5% dari bulan lalu
+                            </p>
+                        </div>
+                        <div
+                            class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
+                            <i class="ri-exchange-dollar-line ri-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Charts & Tables Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <!-- Sales Chart -->
+                <div class="lg:col-span-2 bg-white rounded shadow p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-semibold">Analitik Penjualan</h3>
+                        <div class="flex space-x-2">
+                            <button
+                                class="px-3 py-1 text-xs bg-gray-100 rounded-full !rounded-button whitespace-nowrap">Minggu
+                                Ini</button>
+                            <button
+                                class="px-3 py-1 text-xs bg-primary text-white rounded-full !rounded-button whitespace-nowrap">Bulan
+                                Ini</button>
+                            <button
+                                class="px-3 py-1 text-xs bg-gray-100 rounded-full !rounded-button whitespace-nowrap">Tahun
+                                Ini</button>
+                        </div>
+                    </div>
+                    <div id="sales-chart" class="w-full h-80"></div>
+                </div>
+                <!-- Top Products -->
+                <div class="bg-white rounded shadow p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-semibold">Produk Terlaris</h3>
+                        <button class="text-primary text-sm">Lihat Semua</button>
+                    </div>
+                    <div id="products-chart" class="w-full h-80"></div>
+                </div>
+            </div>
+            <!-- Recent Transactions -->
+            <div class="bg-white rounded shadow mb-8">
+                <div class="flex justify-between items-center p-6 border-b">
+                    <h3 class="font-semibold">Transaksi Terbaru</h3>
+                    <button class="text-primary text-sm">Lihat Semua Transaksi</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-gray-50 text-left">
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">ID
+                                    Transaksi</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Pelanggan</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Produk
+                                </th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal
+                                </th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Total
+                                </th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Status
+                                </th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">#TRX-2506</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">Dewi Lestari</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">Batik Pekalongan</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">18 Jun 2025</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">Rp 850.000</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span
+                                        class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">Selesai</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <button class="text-primary hover:text-primary/80">Detail</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">#TRX-2505</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">Ahmad Rizki</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">Kerajinan Kayu Jepara</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">17 Jun 2025</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">Rp 1.250.000</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span
+                                        class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">Dikirim</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <button class="text-primary hover:text-primary/80">Detail</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">#TRX-2504</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">Siti Nurhaliza</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">Tenun Songket Palembang</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">16 Jun 2025</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">Rp 2.750.000</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span
+                                        class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">Diproses</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <button class="text-primary hover:text-primary/80">Detail</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">#TRX-2503</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">Rudi Hartono</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">Anyaman Rotan Cirebon</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">15 Jun 2025</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">Rp 675.000</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span
+                                        class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">Selesai</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <button class="text-primary hover:text-primary/80">Detail</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">#TRX-2502</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">Anita Wijaya</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">Keramik Plered</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">14 Jun 2025</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">Rp 520.000</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span
+                                        class="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800">Dibatalkan</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <button class="text-primary hover:text-primary/80">Detail</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="px-6 py-4 border-t">
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm text-gray-500">Menampilkan 1-5 dari 56 transaksi</p>
+                        <div class="flex space-x-1">
+                            <button
+                                class="w-8 h-8 flex items-center justify-center rounded border !rounded-button whitespace-nowrap">
+                                <i class="ri-arrow-left-s-line"></i>
+                            </button>
+                            <button
+                                class="w-8 h-8 flex items-center justify-center rounded border bg-primary text-white !rounded-button whitespace-nowrap">1</button>
+                            <button
+                                class="w-8 h-8 flex items-center justify-center rounded border !rounded-button whitespace-nowrap">2</button>
+                            <button
+                                class="w-8 h-8 flex items-center justify-center rounded border !rounded-button whitespace-nowrap">3</button>
+                            <button
+                                class="w-8 h-8 flex items-center justify-center rounded border !rounded-button whitespace-nowrap">
+                                <i class="ri-arrow-right-s-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <footer class="bg-white border-t p-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-500">© 2025 UMKM Go. Hak Cipta Dilindungi.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-gray-600">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <i class="ri-facebook-fill"></i>
+                        </div>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gray-600">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <i class="ri-instagram-line"></i>
+                        </div>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gray-600">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <i class="ri-twitter-x-line"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <!-- Right Panel -->
+    <aside class="right-panel shadow-lg">
+        <div class="p-6 border-b">
+            <h3 class="font-semibold mb-4">Aktivitas Terbaru</h3>
+            <div class="space-y-4">
+                <div class="flex items-start">
+                    <div
+                        class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-primary mr-3 mt-1 flex-shrink-0">
+                        <i class="ri-user-add-line"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm"><span class="font-medium">Novi Handayani</span> mendaftar sebagai pengguna
+                            baru</p>
+                        <p class="text-xs text-gray-500 mt-1">10 menit yang lalu</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div
+                        class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-3 mt-1 flex-shrink-0">
+                        <i class="ri-shopping-cart-line"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm"><span class="font-medium">Transaksi baru</span> dari Dimas Prayoga</p>
+                        <p class="text-xs text-gray-500 mt-1">25 menit yang lalu</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div
+                        class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 mr-3 mt-1 flex-shrink-0">
+                        <i class="ri-star-line"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm"><span class="font-medium">Ulasan baru</span> untuk produk Batik Mega Mendung
+                        </p>
+                        <p class="text-xs text-gray-500 mt-1">1 jam yang lalu</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div
+                        class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mr-3 mt-1 flex-shrink-0">
+                        <i class="ri-file-list-line"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm"><span class="font-medium">Produk baru</span> ditambahkan oleh UMKM Sejahtera
+                        </p>
+                        <p class="text-xs text-gray-500 mt-1">3 jam yang lalu</p>
+                    </div>
+                </div>
+            </div>
+            <button class="w-full mt-4 text-sm text-primary">Lihat Semua Aktivitas</button>
+        </div>
+        <div class="p-6 border-b">
+            <h3 class="font-semibold mb-4">Aksi Cepat</h3>
+            <div class="grid grid-cols-2 gap-3">
+                <button
+                    class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded hover:bg-gray-100 transition !rounded-button whitespace-nowrap">
+                    <div class="w-8 h-8 flex items-center justify-center text-primary mb-2">
+                        <i class="ri-add-circle-line ri-lg"></i>
+                    </div>
+                    <span class="text-xs">Tambah Produk</span>
+                </button>
+                <button
+                    class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded hover:bg-gray-100 transition !rounded-button whitespace-nowrap">
+                    <div class="w-8 h-8 flex items-center justify-center text-green-600 mb-2">
+                        <i class="ri-user-add-line ri-lg"></i>
+                    </div>
+                    <span class="text-xs">Tambah Pengguna</span>
+                </button>
+                <button
+                    class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded hover:bg-gray-100 transition !rounded-button whitespace-nowrap">
+                    <div class="w-8 h-8 flex items-center justify-center text-orange-600 mb-2">
+                        <i class="ri-file-chart-line ri-lg"></i>
+                    </div>
+                    <span class="text-xs">Laporan</span>
+                </button>
+                <button
+                    class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded hover:bg-gray-100 transition !rounded-button whitespace-nowrap">
+                    <div class="w-8 h-8 flex items-center justify-center text-purple-600 mb-2">
+                        <i class="ri-settings-line ri-lg"></i>
+                    </div>
+                    <span class="text-xs">Pengaturan</span>
+                </button>
+            </div>
+        </div>
+        <div class="p-6 border-b">
+            <h3 class="font-semibold mb-4">Metrik Performa</h3>
+            <div class="space-y-4">
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-medium">Produk Terjual</span>
+                        <span class="text-xs text-gray-500">78%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-primary h-2 rounded-full" style="width: 78%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-medium">Konversi Pengunjung</span>
+                        <span class="text-xs text-gray-500">45%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-green-500 h-2 rounded-full" style="width: 45%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-medium">Pertumbuhan UMKM</span>
+                        <span class="text-xs text-gray-500">92%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-purple-500 h-2 rounded-full" style="width: 92%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-6">
+            <h3 class="font-semibold mb-4">Notifikasi Sistem</h3>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between p-3 bg-yellow-50 rounded border border-yellow-200">
+                    <div class="flex items-center">
+                        <div
+                            class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 mr-3 flex-shrink-0">
+                            <i class="ri-error-warning-line"></i>
+                        </div>
+                        <p class="text-sm">Pembaruan sistem tersedia</p>
+                    </div>
+                    <button class="text-xs text-primary">Tindakan</button>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-red-50 rounded border border-red-200">
+                    <div class="flex items-center">
+                        <div
+                            class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-600 mr-3 flex-shrink-0">
+                            <i class="ri-alarm-warning-line"></i>
+                        </div>
+                        <p class="text-sm">5 stok produk hampir habis</p>
+                    </div>
+                    <button class="text-xs text-primary">Tindakan</button>
+                </div>
+            </div>
+            <div class="mt-6">
+                <h4 class="text-sm font-medium mb-3">Pengaturan Notifikasi</h4>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm">Notifikasi Email</span>
+                        <label class="custom-switch">
+                            <input type="checkbox" checked>
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm">Notifikasi Browser</span>
+                        <label class="custom-switch">
+                            <input type="checkbox" checked>
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm">Notifikasi Stok Menipis</span>
+                        <label class="custom-switch">
+                            <input type="checkbox">
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <script id="chart-initialization">
+        document.addEventListener('DOMContentLoaded', function () {
+            // Sales Chart
+            const salesChart = echarts.init(document.getElementById('sales-chart'));
+            const salesOption = {
+                animation: false,
+                tooltip: {
+                    trigger: 'axis',
+                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                    borderColor: '#e2e8f0',
+                    textStyle: {
+                        color: '#1f2937'
+                    }
+                },
+                grid: {
+                    top: 10,
+                    right: 10,
+                    bottom: 30,
+                    left: 40
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                    axisLine: {
+                        lineStyle: {
+                            color: '#e2e8f0'
+                        }
+                    },
+                    axisLabel: {
+                        color: '#1f2937'
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLine: {
+                        show: false
+                    },
+                    axisLabel: {
+                        color: '#1f2937'
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#e2e8f0'
+                        }
+                    }
+                },
+                series: [
+                    {
+                        name: 'Pendapatan',
+                        type: 'line',
+                        smooth: true,
+                        data: [12, 15, 18, 14, 22, 28, 32, 36, 29, 33, 39, 42],
+                        lineStyle: {
+                            width: 3,
+                            color: 'rgba(87, 181, 231, 1)'
+                        },
+                        symbol: 'none',
+                        areaStyle: {
+                            color: {
+                                type: 'linear',
+                                x: 0,
+                                y: 0,
+                                x2: 0,
+                                y2: 1,
+                                colorStops: [{
+                                    offset: 0, color: 'rgba(87, 181, 231, 0.2)'
+                                }, {
+                                    offset: 1, color: 'rgba(87, 181, 231, 0.01)'
+                                }]
+                            }
+                        }
+                    },
+                    {
+                        name: 'Transaksi',
+                        type: 'line',
+                        smooth: true,
+                        data: [8, 10, 13, 11, 16, 19, 21, 25, 20, 23, 26, 29],
+                        lineStyle: {
+                            width: 3,
+                            color: 'rgba(141, 211, 199, 1)'
+                        },
+                        symbol: 'none',
+                        areaStyle: {
+                            color: {
+                                type: 'linear',
+                                x: 0,
+                                y: 0,
+                                x2: 0,
+                                y2: 1,
+                                colorStops: [{
+                                    offset: 0, color: 'rgba(141, 211, 199, 0.2)'
+                                }, {
+                                    offset: 1, color: 'rgba(141, 211, 199, 0.01)'
+                                }]
+                            }
+                        }
+                    }
+                ]
+            };
+            salesChart.setOption(salesOption);
+            // Products Chart
+            const productsChart = echarts.init(document.getElementById('products-chart'));
+            const productsOption = {
+                animation: false,
+                tooltip: {
+                    trigger: 'item',
+                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                    borderColor: '#e2e8f0',
+                    textStyle: {
+                        color: '#1f2937'
+                    }
+                },
+                legend: {
+                    orient: 'vertical',
+                    right: 10,
+                    top: 'center',
+                    textStyle: {
+                        color: '#1f2937'
+                    }
+                },
+                series: [
+                    {
+                        name: 'Produk Terlaris',
+                        type: 'pie',
+                        radius: ['40%', '70%'],
+                        center: ['40%', '50%'],
+                        avoidLabelOverlap: false,
+                        itemStyle: {
+                            borderRadius: 8,
+                            borderColor: '#fff',
+                            borderWidth: 2
+                        },
+                        label: {
+                            show: false
+                        },
+                        emphasis: {
+                            label: {
+                                show: false
+                            }
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        data: [
+                            { value: 35, name: 'Batik', itemStyle: { color: 'rgba(87, 181, 231, 1)' } },
+                            { value: 25, name: 'Kerajinan Kayu', itemStyle: { color: 'rgba(141, 211, 199, 1)' } },
+                            { value: 20, name: 'Tenun', itemStyle: { color: 'rgba(251, 191, 114, 1)' } },
+                            { value: 15, name: 'Keramik', itemStyle: { color: 'rgba(252, 141, 98, 1)' } }
+                        ]
+                    }
+                ]
+            };
+            productsChart.setOption(productsOption);
+            // Resize charts on window resize
+            window.addEventListener('resize', function () {
+                salesChart.resize();
+                productsChart.resize();
+            });
+        });
+    </script>
+</body>
+
+</html>
