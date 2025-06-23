@@ -624,26 +624,24 @@
     <!-- =========== AKHIR DARI MODAL SECTION =========== -->
 
     <!-- loader part starts-->
-    <div id="loader-container" class="fixed inset-0 flex h-screen w-screen items-center justify-center bg-white z-[9999] transition-opacity duration-700 ease-out">
-        <img src="image/cart-loader.gif" alt="Memuat..." class="w-[200px] h-auto">
+     <div id="loader-container" class="fixed inset-0 flex h-screen w-screen items-center justify-center bg-white z-[9999] transition-opacity duration-700 ease-out">
+        <img src="https://raw.githubusercontent.com/username/repo/main/image/cart-loader.gif" alt="Memuat..." class="w-[200px] h-auto" style="display:none;" onerror="this.style.display='none'; document.getElementById('loader-text').style.display='block';">
+        <p id="loader-text" style="display:none;" class="text-xl text-primary">Memuat...</p>
     </div>
     
-    <!-- loader part ends-->
-    
-<script>
-    window.addEventListener('load', function() {
-        const loaderContainer = document.getElementById('loader-container');
-        const minimumDisplayTime = 2000;
+      <script>
+        window.addEventListener('load', function() {
+            const loaderContainer = document.getElementById('loader-container');
+            const minimumDisplayTime = 1500;
 
-        setTimeout(() => {
-            loaderContainer.classList.add('opacity-0', 'invisible');
-            loaderContainer.addEventListener('transitionend', () => {
-                loaderContainer.remove();
-            });
-
-        }, minimumDisplayTime);
-    });
-</script>
+            setTimeout(() => {
+                loaderContainer.classList.add('opacity-0');
+                setTimeout(() => {
+                    loaderContainer.style.display = 'none';
+                }, 700); // Tunggu transisi selesai
+            }, minimumDisplayTime);
+        });
+    </script>
 
 
     <script>

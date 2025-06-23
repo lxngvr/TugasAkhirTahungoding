@@ -5,22 +5,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UMKM Go - Produk UMKM Kami!</title>
-    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-    <script>tailwind.config = { theme: { extend: { colors: { primary: '#2B6CB0', secondary: '#F7FAFC' }, borderRadius: { 'none': '0px', 'sm': '4px', DEFAULT: '8px', 'md': '12px', 'lg': '16px', 'xl': '20px', '2xl': '24px', '3xl': '32px', 'full': '9999px', 'button': '8px' } } } }</script>
+    <script src="https://cdn.tailwindcss.com/3.4.1"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2B6CB0',
+                        secondary: '#F7FAFC'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Quicksand:wght@300..700&family=Syne:wght@400..800&display=swap" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
     <style>
         * {
             scroll-behavior: smooth;
-        }
-
-        :where([class^="ri-"])::before {
-            content: "\f3c2";
         }
 
         body {
@@ -36,155 +54,43 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        .hero-section {
-            background-image: url('https://readdy.ai/api/search-image?query=Indonesian%20traditional%20snacks%20and%20food%20displayed%20beautifully%20on%20a%20gradient%20blue%20to%20white%20background%2C%20soft%20lighting%2C%20professional%20food%20photography%2C%20high%20resolution%2C%20appetizing%20presentation%2C%20various%20colorful%20traditional%20Indonesian%20snacks%20arranged%20artistically%2C%20clean%20modern%20aesthetic&width=1920&height=1080&seq=hero1&orientation=landscape');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            /* Tambahkan ini untuk memastikan konten tidak meluap */
-            transition: max-height 0.3s ease-out;
-            /* Ubah 'height' menjadi 'max-height' */
-        }
-
-        .custom-checkbox {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #2B6CB0;
-            border-radius: 4px;
-            outline: none;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .custom-checkbox:checked {
-            background-color: #2B6CB0;
-        }
-
-        .custom-checkbox:checked::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 6px;
-            width: 6px;
-            height: 10px;
-            border: solid white;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
-        }
-
-        .custom-radio {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #2B6CB0;
-            border-radius: 50%;
-            outline: none;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .custom-radio:checked {
-            border-color: #2B6CB0;
-        }
-
-        .custom-radio:checked::after {
-            content: '';
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: #2B6CB0;
-        }
-
-        .custom-switch {
-            position: relative;
-            display: inline-block;
-            width: 48px;
-            height: 24px;
-        }
-
-        .custom-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked+.slider {
-            background-color: #2B6CB0;
-        }
-
-        input:checked+.slider:before {
-            transform: translateX(24px);
+        .modal-content {
+            transition: transform 0.2s ease-out, opacity 0.2s ease-out;
         }
     </style>
 </head>
 
 <body class="bg-white">
-   <header class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
-    <div class="container mx-auto px-4 py-3">
-        <div class="flex justify-between items-center">
-            <div class="flex items-center">
-                <a href="index.html" class="text-3xl font-['Poppins'] text-primary flex items-center font-bold">
-                    <img src="image/logo-remove.png" 
-                         alt="Logo UMKM Go" class="h-9 w-auto mr-2">
-                    <span>UMKMgo!</span>
-                </a>
+    <header class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-3xl font-['Poppins'] text-primary flex items-center font-bold">
+                        <img src="https://raw.githubusercontent.com/username/repo/main/image/logo-remove.png" alt="Logo UMKM Go" class="h-9 w-auto mr-2" style="display:none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                        <span class="text-3xl font-bold text-primary">UMKMgo!</span>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-</header>
-
+    </header>
 
     <main>
         <section id="products" class="py-16 md:py-24 bg-white">
             <div class="container mx-auto px-4">
                 <br>
                 <nav class="text-sm mb-4" aria-label="Breadcrumb">
-                        <ol class="inline-flex items-center space-x-1 md:space-x-2">
-                            <li class="inline-flex items-center">
-                                <a href="index.html" class="text-gray-500 hover:text-primary">Beranda</a>
-                            </li>
-                            <li>
-                                <div class="flex items-center">
-                                    <i class="ri-arrow-right-s-line text-gray-400"></i>
-                                    <span class="ml-1 font-medium text-gray-800">Produk</span>
-                                </div>
-                            </li>
-                        </ol>
-                    </nav>
+                    <ol class="inline-flex items-center space-x-1 md:space-x-2">
+                        <li class="inline-flex items-center">
+                            <a href="index.html" class="text-gray-500 hover:text-primary">Beranda</a>
+                        </li>
+                        <li>
+                            <div class="flex items-center">
+                                <i class="ri-arrow-right-s-line text-gray-400"></i>
+                                <span class="ml-1 font-medium text-gray-800">Produk</span>
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
                 <div class="text-center mb-12">
                     <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Semua Jajanan Lokal</h1>
                     <p class="text-lg text-gray-700 max-w-3xl mx-auto">Temukan semua jajanan tradisional Sumedang favoritmu di sini. Selamat menjelajah!</p>
@@ -194,12 +100,12 @@
                     <div class="relative w-full md:w-1/3">
                         <input type="text" placeholder="Cari jajanan, contoh: Tahu Sumedang" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                             <i class="ri-search-line text-gray-400"></i>
+                            <i class="ri-search-line text-gray-400"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                     <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1 flex flex-col">
                         <img src="https://placehold.co/500x500/A7F3D0/166534?text=Klepon" alt="Klepon" class="w-full h-64 object-cover">
                         <div class="p-6 flex flex-col flex-grow">
@@ -212,7 +118,7 @@
                         </div>
                     </div>
                     <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1 flex flex-col">
-                         <img src="https://placehold.co/500x500/FDE68A/92400E?text=Risoles" alt="Risoles" class="w-full h-64 object-cover">
+                        <img src="https://placehold.co/500x500/FDE68A/92400E?text=Risoles" alt="Risoles" class="w-full h-64 object-cover">
                         <div class="p-6 flex flex-col flex-grow">
                             <h3 class="text-xl font-semibold text-gray-900 mb-2">Risoles Ragout</h3>
                             <p class="text-gray-700 mb-4 line-clamp-2 flex-grow">Kudapan gurih dengan kulit renyah dan isian ragout ayam sayuran yang lezat.</p>
@@ -255,7 +161,7 @@
                             </div>
                         </div>
                     </div>
-                     <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1 flex flex-col">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1 flex flex-col">
                         <img src="https://placehold.co/500x500/BFDBFE/1E3A8A?text=Lemper" alt="Lemper" class="w-full h-64 object-cover">
                         <div class="p-6 flex flex-col flex-grow">
                             <h3 class="text-xl font-semibold text-gray-900 mb-2">Lemper Ayam</h3>
@@ -266,7 +172,7 @@
                             </div>
                         </div>
                     </div>
-                     <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1 flex flex-col">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1 flex flex-col">
                         <img src="https://placehold.co/500x500/d6d3d1/44403c?text=Opak" alt="Opak Ketan" class="w-full h-64 object-cover">
                         <div class="p-6 flex flex-col flex-grow">
                             <h3 class="text-xl font-semibold text-gray-900 mb-2">Opak Ketan</h3>
@@ -288,21 +194,98 @@
                             </div>
                         </div>
                     </div>
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1 flex flex-col">
+                        <img src="https://placehold.co/500x500/A7F3D0/166534?text=Klepon+2" alt="Klepon" class="w-full h-64 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Klepon</h3>
+                            <p class="text-gray-700 mb-4 line-clamp-2 flex-grow">Kue tradisional dengan isian gula merah cair dan balutan kelapa parut.</p>
+                            <div class="flex justify-between items-center mt-auto">
+                                <span class="text-primary font-semibold text-lg">Rp 15.000</span>
+                                <button class="open-modal-btn bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90" data-name="Klepon" data-price="Rp 15.000" data-img="https://placehold.co/500x500/A7F3D0/166534?text=Klepon" data-umkm="UMKM Jajanan Ibu Siti" data-desc="Kue tradisional berbentuk bulat yang kenyal, terbuat dari tepung ketan. Setiap gigitannya akan memberikan kejutan lelehan gula merah manis yang lumer di mulut, dibalut dengan gurihnya parutan kelapa segar.">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1 flex flex-col">
+                        <img src="https://placehold.co/500x500/FDE68A/92400E?text=Risoles+2" alt="Risoles" class="w-full h-64 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Risoles Ragout</h3>
+                            <p class="text-gray-700 mb-4 line-clamp-2 flex-grow">Kudapan gurih dengan kulit renyah dan isian ragout ayam sayuran yang lezat.</p>
+                            <div class="flex justify-between items-center mt-auto">
+                                <span class="text-primary font-semibold text-lg">Rp 25.000</span>
+                                <button class="open-modal-btn bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90" data-name="Risoles" data-price="Rp 25.000" data-img="https://placehold.co/500x500/FDE68A/92400E?text=Risoles" data-umkm="UMKM Dapur Nenek" data-desc="Kudapan gurih yang populer dengan kulit crepes tipis yang renyah setelah digoreng, diisi dengan ragout ayam dan sayuran wortel serta kentang yang creamy dan lezat.">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1 flex flex-col">
+                        <img src="https://placehold.co/500x500/FBBF24/854D0E?text=Onde-onde+2" alt="Onde-onde" class="w-full h-64 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Onde-onde</h3>
+                            <p class="text-gray-700 mb-4 line-clamp-2 flex-grow">Kue bola wijen dengan isian pasta kacang hijau yang manis dan legit.</p>
+                            <div class="flex justify-between items-center mt-auto">
+                                <span class="text-primary font-semibold text-lg">Rp 20.000</span>
+                                <button class="open-modal-btn bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90" data-name="Onde-onde" data-price="Rp 20.000" data-img="https://placehold.co/500x500/FBBF24/854D0E?text=Onde-onde" data-umkm="UMKM Pawon Mbah Putri" data-desc="Kue bola wijen yang digoreng hingga keemasan. Nikmati sensasi renyah di luar dengan isian pasta kacang hijau yang manis dan legit di dalamnya.">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1 flex flex-col">
+                        <img src="https://placehold.co/500x500/f59e0b/92400e?text=Tahu+2" alt="Tahu Sumedang" class="w-full h-64 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Tahu Sumedang</h3>
+                            <p class="text-gray-700 mb-4 line-clamp-2 flex-grow">Ikon kuliner Sumedang, tahu goreng dengan tekstur renyah di luar dan lembut di dalam.</p>
+                            <div class="flex justify-between items-center mt-auto">
+                                <span class="text-primary font-semibold text-lg">Rp 30.000</span>
+                                <button class="open-modal-btn bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90" data-name="Tahu Sumedang" data-price="Rp 30.000" data-img="https://placehold.co/500x500/f59e0b/92400e?text=Tahu+Sumedang" data-umkm="Pusat Tahu Palasari" data-desc="Tahu legendaris khas Sumedang yang terkenal dengan bagian dalamnya yang hampir kopong dan rasa gurih yang khas. Paling nikmat disantap hangat dengan lontong dan cengek domba.">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1 flex flex-col">
+                        <img src="https://placehold.co/500x500/F87171/991B1B?text=Lapis+2" alt="Kue Lapis" class="w-full h-64 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Kue Lapis</h3>
+                            <p class="text-gray-700 mb-4 line-clamp-2 flex-grow">Kue cantik dengan lapisan warna-warni yang kenyal dan rasa manis gurih.</p>
+                            <div class="flex justify-between items-center mt-auto">
+                                <span class="text-primary font-semibold text-lg">Rp 22.000</span>
+                                <button class="open-modal-btn bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90" data-name="Kue Lapis" data-price="Rp 22.000" data-img="https://placehold.co/500x500/F87171/991B1B?text=Kue+Lapis" data-umkm="UMKM Lapis Berkah" data-desc="Kue tradisional yang cantik dengan lapisan warna-warni. Dibuat dari tepung beras dan santan, teksturnya kenyal dan rasanya manis gurih.">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1 flex flex-col">
+                        <img src="https://placehold.co/500x500/BFDBFE/1E3A8A?text=Lemper+2" alt="Lemper" class="w-full h-64 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Lemper Ayam</h3>
+                            <p class="text-gray-700 mb-4 line-clamp-2 flex-grow">Ketan pulen diisi abon ayam, dibungkus daun pisang, cocok untuk camilan.</p>
+                            <div class="flex justify-between items-center mt-auto">
+                                <span class="text-primary font-semibold text-lg">Rp 18.000</span>
+                                <button class="open-modal-btn bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90" data-name="Lemper" data-price="Rp 18.000" data-img="https://placehold.co/500x500/BFDBFE/1E3A8A?text=Lemper" data-umkm="UMKM Rasa Keluarga" data-desc="Camilan klasik yang terbuat dari ketan pulen dan gurih, diisi dengan suwiran ayam berbumbu lezat di bagian tengahnya. Aroma khas dari daun pisang pembungkusnya menambah kenikmatan.">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1 flex flex-col">
+                        <img src="https://placehold.co/500x500/d6d3d1/44403c?text=Opak+2" alt="Opak Ketan" class="w-full h-64 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Opak Ketan</h3>
+                            <p class="text-gray-700 mb-4 line-clamp-2 flex-grow">Kerupuk tradisional renyah dari beras ketan, dengan rasa gurih yang khas.</p>
+                            <div class="flex justify-between items-center mt-auto">
+                                <span class="text-primary font-semibold text-lg">Rp 28.000</span>
+                                <button class="open-modal-btn bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90" data-name="Opak Ketan" data-price="Rp 28.000" data-img="https://placehold.co/500x500/d6d3d1/44403c?text=Opak" data-umkm="Opak Rancakalong Asli" data-desc="Camilan renyah khas Sumedang, terbuat dari beras ketan yang ditumbuk dan dibumbui. Opak memiliki rasa gurih yang otentik dan tekstur yang garing, cocok sebagai teman minum teh.">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1 flex flex-col">
+                        <img src="https://placehold.co/500x500/eab308/854d0e?text=Ubi+2" alt="Ubi Cilembu" class="w-full h-64 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Ubi Cilembu Bakar</h3>
+                            <p class="text-gray-700 mb-4 line-clamp-2 flex-grow">Ubi manis seperti madu saat dipanggang, produk unggulan dari Cilembu.</p>
+                            <div class="flex justify-between items-center mt-auto">
+                                <span class="text-primary font-semibold text-lg">Rp 45.000</span>
+                                <button class="open-modal-btn bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90" data-name="Ubi Cilembu Bakar" data-price="Rp 45.000" data-img="https://placehold.co/500x500/eab308/854d0e?text=Ubi+Cilembu" data-umkm="Petani Ubi Cilembu" data-desc="Ubi jalar asli dari Desa Cilembu, Sumedang, yang menjadi sangat manis dan mengeluarkan cairan seperti madu ketika dipanggang. Rasanya yang legit dan aromanya yang khas menjadikannya camilan sehat yang istimewa.">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
 
-                <div class="mt-16 flex justify-center items-center space-x-2">
-                    <a href="#" class="px-4 py-2 border rounded-md bg-gray-200 text-gray-500 cursor-not-allowed">
-                        <i class="ri-arrow-left-s-line"></i>
-                    </a>
-                    <a href="#" class="px-4 py-2 border rounded-md bg-primary text-white">1</a>
-                    <a href="#" class="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100">2</a>
-                    <a href="#" class="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100">3</a>
-                    <span class="text-gray-700">...</span>
-                    <a href="#" class="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100">8</a>
-                    <a href="#" class="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100">
-                        <i class="ri-arrow-right-s-line"></i>
-                    </a>
+                <div id="pagination-controls" class="mt-16 flex justify-center items-center space-x-2">
                 </div>
 
             </div>
@@ -311,7 +294,7 @@
 
     <div id="productModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
         <div id="modalOverlay" class="absolute inset-0 bg-black/60 cursor-pointer"></div>
-        <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg mx-auto z-10 transform transition-all scale-95 opacity-0" id="modalContent">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg mx-auto z-10 transform scale-95 opacity-0 modal-content" id="modalContent">
             <div class="flex justify-between items-center p-4 border-b border-gray-200">
                 <h2 class="text-xl font-bold text-gray-800">Detail Produk</h2>
                 <button id="closeModalBtn" class="text-gray-400 hover:text-gray-600">
@@ -334,29 +317,23 @@
         </div>
     </div>
 
-   <!-- Footer -->
     <footer class="bg-primary text-white">
         <div class="container mx-auto px-4 pt-16 pb-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div>
                     <h3 class="text-xl font-bold mb-4">UMKM Go Sumedang</h3>
-                    <p class="mb-4">Platform direktori yang membantu Anda menemukan dan terhubung dengan UMKM jajanan
-                        tradisional terbaik di wilayah Sumedang.</p>
+                    <p class="mb-4">Platform direktori yang membantu Anda menemukan dan terhubung dengan UMKM jajanan tradisional terbaik di wilayah Sumedang.</p>
                     <div class="flex space-x-4">
-                        <a href="#"
-                            class="w-10 h-10 flex items-center justify-center bg-white/20 rounded-full hover:bg-white/30 transition-colors">
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-white/20 rounded-full hover:bg-white/30 transition-colors">
                             <i class="ri-facebook-fill"></i>
                         </a>
-                        <a href="#"
-                            class="w-10 h-10 flex items-center justify-center bg-white/20 rounded-full hover:bg-white/30 transition-colors">
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-white/20 rounded-full hover:bg-white/30 transition-colors">
                             <i class="ri-instagram-fill"></i>
                         </a>
-                        <a href="#"
-                            class="w-10 h-10 flex items-center justify-center bg-white/20 rounded-full hover:bg-white/30 transition-colors">
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-white/20 rounded-full hover:bg-white/30 transition-colors">
                             <i class="ri-whatsapp-fill"></i>
                         </a>
-                        <a href="#"
-                            class="w-10 h-10 flex items-center justify-center bg-white/20 rounded-full hover:bg-white/30 transition-colors">
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-white/20 rounded-full hover:bg-white/30 transition-colors">
                             <i class="ri-youtube-fill"></i>
                         </a>
                     </div>
@@ -397,18 +374,13 @@
                 </div>
                 <div>
                     <h3 class="text-xl font-bold mb-4">Punya Masukan?</h3>
-                    <p class="mb-4">Kenal UMKM jajanan di Sumedang yang belum ada di sini? Atau punya saran untuk kami?
-                        Beri tahu kami!</p>
+                    <p class="mb-4">Kenal UMKM jajanan di Sumedang yang belum ada di sini? Atau punya saran untuk kami? Beri tahu kami!</p>
                     <form class="space-y-3">
                         <div class="flex">
-                            <input type="text" placeholder="Tulis saran Anda di sini..."
-                                class="w-full px-4 py-2 rounded-l-lg text-gray-800 border-none focus:outline-none">
-                
-                            <button type="submit"
-                                class="bg-white text-primary px-4 py-2 rounded-r-lg hover:bg-gray-100 transition-colors flex items-center justify-center">
+                            <input type="text" placeholder="Tulis saran Anda di sini..." class="w-full px-4 py-2 rounded-l-lg text-gray-800 border-none focus:outline-none">
+                            <button type="submit" class="bg-white text-primary px-4 py-2 rounded-r-lg hover:bg-gray-100 transition-colors flex items-center justify-center">
                                 <i class="ri-send-plane-fill text-xl"></i>
                             </button>
-                
                         </div>
                     </form>
                 </div>
@@ -424,42 +396,28 @@
         </div>
     </footer>
 
-        <!-- loader part starts-->
     <div id="loader-container" class="fixed inset-0 flex h-screen w-screen items-center justify-center bg-white z-[9999] transition-opacity duration-700 ease-out">
-        <img src="image/cart-loader.gif" alt="Memuat..." class="w-[200px] h-auto">
+        <img src="https://raw.githubusercontent.com/username/repo/main/image/cart-loader.gif" alt="Memuat..." class="w-[200px] h-auto" style="display:none;" onerror="this.style.display='none'; document.getElementById('loader-text').style.display='block';">
+        <p id="loader-text" style="display:none;" class="text-xl text-primary">Memuat...</p>
     </div>
-    
-    <!-- loader part ends-->
-    
-<script>
-    window.addEventListener('load', function() {
-        const loaderContainer = document.getElementById('loader-container');
-        const minimumDisplayTime = 1500;
-
-        setTimeout(() => {
-            loaderContainer.classList.add('opacity-0', 'invisible');
-            loaderContainer.addEventListener('transitionend', () => {
-                loaderContainer.remove();
-            });
-
-        }, minimumDisplayTime);
-    });
-</script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Mobile Menu Script
-            const menuToggle = document.getElementById('menu-toggle');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (menuToggle && mobileMenu) {
-                menuToggle.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                    const icon = menuToggle.querySelector('i');
-                    icon.className = mobileMenu.classList.contains('hidden') ? 'ri-menu-line ri-2x' : 'ri-close-line ri-2x';
-                });
-            }
+        window.addEventListener('load', function() {
+            const loaderContainer = document.getElementById('loader-container');
+            const minimumDisplayTime = 1500;
 
-            // Modal Script
+            setTimeout(() => {
+                loaderContainer.classList.add('opacity-0');
+                setTimeout(() => {
+                    loaderContainer.style.display = 'none';
+                }, 700); // Tunggu transisi selesai
+            }, minimumDisplayTime);
+        });
+    </script>
+
+    <script>
+        // Skrip untuk Modal (tidak diubah)
+        document.addEventListener('DOMContentLoaded', () => {
             const productModal = document.getElementById('productModal');
             if (productModal) {
                 const modalOverlay = document.getElementById('modalOverlay');
@@ -497,7 +455,11 @@
                 openModalBtns.forEach(btn => {
                     btn.addEventListener('click', () => {
                         const productData = {
-                            name: btn.dataset.name, price: btn.dataset.price, img: btn.dataset.img, umkm: btn.dataset.umkm, desc: btn.dataset.desc,
+                            name: btn.dataset.name,
+                            price: btn.dataset.price,
+                            img: btn.dataset.img,
+                            umkm: btn.dataset.umkm,
+                            desc: btn.dataset.desc,
                         };
                         openModal(productData);
                     });
@@ -510,8 +472,184 @@
                         closeModal();
                     }
                 });
-                if (modalContent) modalContent.classList.add('transition-all', 'duration-200', 'ease-out');
             }
+        });
+    </script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- ELEMEN-ELEMEN ---
+            const productGrid = document.getElementById('product-grid');
+            if (!productGrid) {
+                console.error('Elemen #product-grid tidak ditemukan!');
+                return;
+            }
+            const allProductCards = Array.from(productGrid.children);
+            const paginationContainer = document.getElementById('pagination-controls');
+
+            // --- KONFIGURASI ---
+            const itemsPerPage = 8; // Tampilkan 8 produk per halaman
+            let currentPage = 1;
+            // --- AKHIR KONFIGURASI ---
+
+            const totalItems = allProductCards.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+            /**
+             * Fungsi untuk menampilkan item pada halaman tertentu dengan menyembunyikan/menampilkan kartu
+             */
+            function displayItems(page) {
+                const startIndex = (page - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+
+                allProductCards.forEach((card, index) => {
+                    if (index >= startIndex && index < endIndex) {
+                        // Gunakan 'flex' karena kartu produk menggunakan 'display: flex'
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Scroll ke atas setiap ganti halaman untuk pengalaman pengguna yang lebih baik
+                const productsSection = document.getElementById('products');
+                if (productsSection) {
+                    window.scrollTo({
+                        top: productsSection.offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+
+            /**
+             * Fungsi utama untuk membuat dan merender ulang kontrol pagination
+             */
+            function setupPagination() {
+                if (!paginationContainer) return;
+                paginationContainer.innerHTML = '';
+
+                if (totalPages <= 1) return;
+
+                paginationContainer.appendChild(createPaginationButton({
+                    icon: 'ri-arrow-left-s-line',
+                    page: currentPage - 1,
+                    disabled: currentPage === 1,
+                }));
+
+                const pageNumbers = getPageNumbers();
+                pageNumbers.forEach(pageNumber => {
+                    if (pageNumber === '...') {
+                        const ellipsis = document.createElement('span');
+                        ellipsis.className = 'text-gray-700 px-2 py-2';
+                        ellipsis.textContent = '...';
+                        paginationContainer.appendChild(ellipsis);
+                    } else {
+                        paginationContainer.appendChild(createPaginationButton({
+                            text: pageNumber,
+                            page: pageNumber,
+                            active: currentPage === pageNumber
+                        }));
+                    }
+                });
+
+                paginationContainer.appendChild(createPaginationButton({
+                    icon: 'ri-arrow-right-s-line',
+                    page: currentPage + 1,
+                    disabled: currentPage === totalPages,
+                }));
+            }
+
+            /**
+             * Helper untuk membuat satu tombol pagination
+             */
+            function createPaginationButton({
+                icon = null,
+                text = null,
+                page,
+                disabled = false,
+                active = false
+            }) {
+                const button = document.createElement('a');
+                button.href = '#';
+
+                let classes = 'px-4 py-2 border rounded-md transition-colors duration-200';
+
+                if (active) {
+                    classes += ' bg-primary text-white border-primary cursor-default';
+                } else if (disabled) {
+                    classes += ' bg-gray-200 text-gray-500 cursor-not-allowed border-gray-200';
+                } else {
+                    classes += ' text-gray-700 hover:bg-gray-100 hover:border-gray-300 border-gray-300';
+                }
+
+                button.className = classes;
+
+                if (icon) {
+                    const i = document.createElement('i');
+                    i.className = icon;
+                    button.appendChild(i);
+                } else {
+                    button.textContent = text;
+                }
+
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (!disabled && !active) {
+                        currentPage = page;
+                        displayItems(currentPage);
+                        setupPagination();
+                    }
+                });
+
+                return button;
+            }
+
+            /**
+             * Logika untuk menentukan nomor halaman mana yang akan ditampilkan
+             */
+            function getPageNumbers() {
+                const pages = [];
+                const siblingCount = 1;
+                const showPages = siblingCount + 5;
+
+                if (totalPages <= showPages) {
+                    for (let i = 1; i <= totalPages; i++) {
+                        pages.push(i);
+                    }
+                    return pages;
+                }
+
+                const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
+                const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPages);
+
+                const shouldShowLeftDots = leftSiblingIndex > 2;
+                const shouldShowRightDots = rightSiblingIndex < totalPages - 1;
+
+                if (!shouldShowLeftDots && shouldShowRightDots) {
+                    for (let i = 1; i < 3 + 2 * siblingCount; i++) pages.push(i);
+                    pages.push('...');
+                    pages.push(totalPages);
+                } else if (shouldShowLeftDots && !shouldShowRightDots) {
+                    pages.push(1);
+                    pages.push('...');
+                    for (let i = totalPages - (1 + 2 * siblingCount); i <= totalPages; i++) pages.push(i);
+                } else if (shouldShowLeftDots && shouldShowRightDots) {
+                    pages.push(1);
+                    pages.push('...');
+                    for (let i = leftSiblingIndex; i <= rightSiblingIndex; i++) pages.push(i);
+                    pages.push('...');
+                    pages.push(totalPages);
+                }
+                
+                return pages;
+            }
+
+            // --- INISIALISASI ---
+            if (allProductCards.length > 0) {
+                displayItems(currentPage);
+                setupPagination();
+            }
+            // --- AKHIR INISIALISASI ---
         });
     </script>
 </body>
